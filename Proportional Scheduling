@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+int main() {
+    int n, total_weight = 0, total_time = 100;
+
+    printf("Enter number of tasks: ");
+    scanf("%d", &n);
+
+    int weight[n], slice[n];
+
+    for(int i = 0; i < n; i++) {
+        printf("Enter weight for Task %d: ", i + 1);
+        scanf("%d", &weight[i]);
+
+        total_weight += weight[i];
+    }
+
+    printf("\nProportional Scheduling:\n");
+
+    for(int i = 0; i < n; i++) {
+        slice[i] = (weight[i] * total_time) / total_weight;
+
+        printf("Task %d -> CPU Time = %d ms\n",
+               i + 1, slice[i]);
+    }
+
+    return 0;
+}
