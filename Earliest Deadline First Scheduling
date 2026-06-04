@@ -1,0 +1,80 @@
+#include <stdio.h>
+
+struct Process
+{
+    int id;
+    int arrival;
+    int burst;
+    int deadline;
+    int remaining;
+    int completed;
+};
+
+int main()
+{
+    int n, i, time = 0, completed = 0;
+
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    struct Process p[n];
+
+    for(i = 0; i < n; i++)
+    {
+        printf("\nProcess P%d\n", i + 1);
+
+        p[i].id = i + 1;
+
+        printf("Enter Arrival Time: ");
+        scanf("%d", &p[i].arrival);
+
+        printf("Enter Burst Time: ");
+        scanf("%d", &p[i].burst);
+
+        printf("Enter Deadline: ");
+        scanf("%d", &p[i].deadline);
+
+        p[i].remaining = p[i].burst;
+        p[i].completed = 0;
+    }
+
+    printf("\nTime\tRunning Process\n");
+
+    while(completed < n)
+    {
+        int earliest = -1;
+
+        for(i = 0; i < n; i++)
+        {
+            if(p[i].arrival <= time && p[i].remaining > 0)
+            {
+                if(earliest == -1 ||
+                   p[i].deadline < p[earliest].deadline)
+                {
+                    earliest = i;
+                }
+            }
+        }
+
+        if(earliest != -1)
+        {
+            printf("%d\tP%d\n", time, p[earliest].id);
+
+            p[earliest].remaining--;
+
+            if(p[earliest].remaining == 0)
+            {
+                p[earliest].completed = 1;
+                completed++;
+            }
+        }
+        else
+        {
+            printf("%d\tIdle\n", time);
+        }
+
+        time++;
+    }
+
+    return 0;
+}
